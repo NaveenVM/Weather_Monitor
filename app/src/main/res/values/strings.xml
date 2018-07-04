@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">WhetherMonitor</string>
+
+    <string name="url_port">http://api.openweathermap.org/data/2.5/weather?q=</string>
+
+    <string name="CHENNAI">CHENNAI</string>
+    <string name="Temperature">Temperature</string>
+    <string name="value">value</string>
+    <string name="MUMBAI">MUMBAI</string>
+    <string name="BANGALORE">BANGALORE</string>
+    <string name="NEW_DELHI">NEW DELHI</string>
+    <string name="Welcome">Welcome</string>
+    <string name="Pressure">Pressure</string>
+    <string name="Humidity">Humidity</string>
+    <string name="Wind">Wind</string>
+</resources>
