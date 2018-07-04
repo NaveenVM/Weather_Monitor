@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WhetherMonitor</string>
+    <string name="app_name">WeatherMonitor</string>
 
     <string name="url_port">http://api.openweathermap.org/data/2.5/weather?q=</string>
 

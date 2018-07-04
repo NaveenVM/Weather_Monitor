@@ -2,9 +2,12 @@ package whethermonitor.naveen.com.whethermonitor;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.io.Serializable;
@@ -22,7 +25,17 @@ public class WeatherDetails extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WeatherDetails.this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.header);
+        getSupportActionBar().setElevation(0);
+        View v = getSupportActionBar().getCustomView();
+        TextView titleTxtView = (TextView) v.findViewById(R.id.titleTxt);
+
+
         setContentView(R.layout.activity_weather_details);
+
         Typeface typeface= Typeface.createFromAsset(getApplicationContext().getAssets(),"comfortaa_bold.ttf");
         Typeface typefaceBroshk= Typeface.createFromAsset(getApplicationContext().getAssets(),"broshk.ttf");
         pressValue = (TextView)findViewById(R.id.press_Value);
@@ -39,7 +52,9 @@ public class WeatherDetails extends AppCompatActivity{
         windText.setTypeface(typefaceBroshk);
 
         ArrayList<BeanWeather> cityList = (ArrayList<BeanWeather>) getIntent().getSerializableExtra("mylist");
-
+        String cityName = getIntent().getExtras().getString("cityName");
+        Log.d("TestTag","cityList "+cityList);
+        titleTxtView.setText(cityName);
         getWeatherDetails(cityList);
     }
     public void getWeatherDetails(ArrayList<BeanWeather> cityList){

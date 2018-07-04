@@ -1,15 +1,20 @@
 package whethermonitor.naveen.com.whethermonitor;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +62,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MainActivity.this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.main_header);
+        getSupportActionBar().setElevation(0);
+        View v = getSupportActionBar().getCustomView();
+        TextView titleTxtView = (TextView) v.findViewById(R.id.titleTxt);
 
         Typeface typeface= Typeface.createFromAsset(getApplicationContext().getAssets(),"comfortaa_bold.ttf");
 
@@ -74,7 +86,33 @@ public class MainActivity extends AppCompatActivity {
         relativeBangalore = (RelativeLayout)findViewById(R.id.relative_bangalore);
         relativeNewDelhi = (RelativeLayout)findViewById(R.id.relative_newdelhi);
 
+        titleTxtView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                final Dialog dialog = new Dialog(MainActivity.this);
+                dialog.setContentView(R.layout.key_address_layouy);
 
+                final EditText key_Text = (EditText) dialog.findViewById(R.id.editText);
+                Button btn = (Button) dialog.findViewById(R.id.button);
+
+                dialog.show();
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String weather_key = key_Text.getText().toString().trim();
+                        if(weather_key.equals("")||(weather_key.length()==0)){
+                            Toast.makeText(MainActivity.this,"Please enter IP address",Toast.LENGTH_SHORT).show();
+                        }else{
+                            weatherKey = "&APPID="+weather_key;
+                            callAsynchronousTask();
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                return false;
+            }
+        });
         ///5ceb8f0a44dc7554154ce93db3bc28e8
 
         urls=  AppController.stringIpAddress(MainActivity.this);
@@ -87,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,WeatherDetails.class);
                 intent.putExtra("mylist", chennaiList);
+                intent.putExtra("cityName","Chennai Report");
                 startActivity(intent);
             }
         });
@@ -95,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,WeatherDetails.class);
                 intent.putExtra("mylist", mumbaiList);
+                intent.putExtra("cityName","Mumbai Report");
                 startActivity(intent);
             }
         });
@@ -103,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,WeatherDetails.class);
                 intent.putExtra("mylist", bangaloreList);
+                intent.putExtra("cityName","Bangalore Report");
                 startActivity(intent);
             }
         });
@@ -111,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,WeatherDetails.class);
                 intent.putExtra("mylist", newdelhiList);
+                intent.putExtra("cityName","New Delhi Report");
                 startActivity(intent);
             }
         });
